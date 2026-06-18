@@ -1,0 +1,730 @@
+<!DOCTYPE html>
+<html lang="vi" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Phan Thành Tài | Portfolio</title>
+    <!-- Tailwind CSS CDN (v4) -->
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts: Inter & JetBrains Mono -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    
+    <!-- SCRIPT BẮT BUỘC ĐỂ HIỂN THỊ HUY HIỆU LINKEDIN -->
+    <script src="https://platform.linkedin.com/badges/js/profile.js" async defer type="text/javascript"></script>
+
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0b1329;
+        }
+        .code-font {
+            font-family: 'JetBrains Mono', monospace;
+        }
+        /* Hiệu ứng xoay vòng công nghệ cho Avatar */
+        @keyframes spin-clockwise {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        @keyframes spin-counter {
+            0% { transform: rotate(360deg); }
+            100% { transform: rotate(0deg); }
+        }
+        .animate-spin-tech-1 {
+            animation: spin-clockwise 12s linear infinite;
+        }
+        .animate-spin-tech-2 {
+            animation: spin-counter 8s linear infinite;
+        }
+        
+        /* Hiệu ứng lưới nền ảo diệu */
+        .tech-grid {
+            background-size: 40px 40px;
+            background-image: 
+                linear-gradient(to right, rgba(14, 116, 144, 0.05) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(14, 116, 144, 0.05) 1px, transparent 1px);
+        }
+        /* Điểm sáng nhấp nháy động */
+        @keyframes pulse-slow {
+            0%, 100% { transform: scale(1) translate(0px, 0px); opacity: 0.4; }
+            33% { transform: scale(1.15) translate(30px, -50px); opacity: 0.6; }
+            66% { transform: scale(0.9) translate(-20px, 20px); opacity: 0.5; }
+        }
+        .animate-pulse-slow-1 {
+            animation: pulse-slow 15s infinite alternate;
+        }
+        .animate-pulse-slow-2 {
+            animation: pulse-slow 12s infinite alternate-reverse 2s;
+        }
+        /* Glow effect khi hover */
+        .glass-card {
+            background: rgba(15, 23, 42, 0.45);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .glass-card:hover {
+            border-color: rgba(34, 211, 238, 0.3);
+            box-shadow: 0 0 25px rgba(34, 211, 238, 0.1);
+            transform: translateY(-4px);
+        }
+        /* Style cho thanh cuộn */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0b1329;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #1e293b;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #06b6d4;
+        }
+    </style>
+</head>
+<body class="text-slate-100 antialiased selection:bg-cyan-500 selection:text-slate-950 min-h-screen relative overflow-x-hidden">
+
+    <!-- HIỆU ỨNG NỀN MESH GRADIENT ĐỘNG -->
+    <div class="fixed inset-0 -z-50 overflow-hidden bg-[#070b19]">
+        <!-- Điểm sáng Neon 1 -->
+        <div class="absolute top-[10%] left-[5%] w-[35rem] h-[35rem] rounded-full bg-cyan-500/10 blur-[120px] animate-pulse-slow-1 pointer-events-none"></div>
+        <!-- Điểm sáng Neon 2 -->
+        <div class="absolute bottom-[20%] right-[5%] w-[40rem] h-[40rem] rounded-full bg-purple-600/10 blur-[130px] animate-pulse-slow-2 pointer-events-none"></div>
+        <!-- Lớp lưới tọa độ Tech Grid -->
+        <div class="absolute inset-0 tech-grid opacity-75"></div>
+        <!-- Hiệu ứng dải màu tinh vân phía trên -->
+        <div class="absolute top-0 left-0 right-0 h-[600px] bg-gradient-to-b from-cyan-500/5 via-transparent to-transparent"></div>
+    </div>
+
+    <!-- NAVIGATION BAR (GLASSMORPHISM) -->
+    <nav class="fixed top-0 left-0 right-0 z-50 bg-slate-950/60 backdrop-blur-lg border-b border-slate-800/60 transition-all duration-300" id="navbar">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
+            <a href="#" class="text-xl font-black tracking-wider bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent flex items-center gap-2">
+                <span class="code-font">&lt;</span>ttai.dev<span class="code-font">/&gt;</span>
+            </a>
+            
+            <!-- Desktop Nav -->
+            <div class="hidden md:flex items-center space-x-8 text-sm font-semibold tracking-wide text-slate-300">
+                <a href="#about" class="hover:text-cyan-400 transition-colors duration-200">Giới thiệu</a>
+                <a href="#education" class="hover:text-cyan-400 transition-colors duration-200">Học vấn</a>
+                <a href="#skills" class="hover:text-cyan-400 transition-colors duration-200">Kỹ năng</a>
+                <a href="#projects" class="hover:text-cyan-400 transition-colors duration-200">Dự án</a>
+                <a href="#contact" class="px-4 py-2 rounded-lg bg-cyan-500/10 border border-cyan-500/30 text-cyan-400 hover:bg-cyan-500 hover:text-slate-950 transition-all duration-300">Liên hệ</a>
+            </div>
+
+            <!-- Mobile Nav Button -->
+            <button class="md:hidden text-slate-300 hover:text-cyan-400 focus:outline-none" id="menu-btn" aria-label="Toggle menu">
+                <i class="fa-solid fa-bars text-xl"></i>
+            </button>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div class="hidden md:hidden bg-slate-950/95 border-b border-slate-800 backdrop-blur-lg" id="mobile-menu">
+            <div class="px-4 pt-2 pb-6 space-y-3 text-base font-semibold">
+                <a href="#about" class="block py-2 text-slate-300 hover:text-cyan-400">Giới thiệu</a>
+                <a href="#education" class="block py-2 text-slate-300 hover:text-cyan-400">Học vấn</a>
+                <a href="#skills" class="block py-2 text-slate-300 hover:text-cyan-400">Kỹ năng</a>
+                <a href="#projects" class="block py-2 text-slate-300 hover:text-cyan-400">Dự án</a>
+                <a href="#contact" class="block py-2 text-slate-300 hover:text-cyan-400">Liên hệ</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- HERO & PROFILE SECTION -->
+    <section id="about" class="pt-28 md:pt-36 pb-20 max-w-6xl mx-auto px-4 sm:px-6 flex flex-col lg:flex-row items-center gap-12 lg:gap-16">
+        <div class="flex-1 space-y-6 text-center lg:text-left">
+            <div class="inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full bg-cyan-500/10 text-cyan-400 text-xs font-semibold border border-cyan-500/20 shadow-sm">
+                <span class="w-2.5 h-2.5 rounded-full bg-cyan-400 animate-ping"></span>
+                <span>Sinh viên Kỹ thuật Phần mềm @ FPT University</span>
+            </div>
+            
+            <h1 class="text-4xl sm:text-5xl md:text-6xl font-black tracking-tight leading-none">
+                Xin chào, mình là <br class="hidden sm:inline">
+                <span class="bg-gradient-to-r from-cyan-400 via-sky-400 to-blue-500 bg-clip-text text-transparent filter drop-shadow-sm">
+                    Phan Thành Tài
+                </span>
+            </h1>
+            
+            <p class="text-slate-400 text-base sm:text-lg leading-relaxed max-w-2xl mx-auto lg:mx-0">
+                Đam mê thiết kế & phát triển các ứng dụng hệ thống tối ưu, nghiên cứu giải pháp <strong class="text-cyan-400 font-semibold">IoT</strong> và ứng dụng <strong class="text-cyan-400 font-semibold">AI</strong> nhằm kiến tạo các giá trị thực tiễn cho cộng đồng. Hiện mình đang tìm kiếm cơ hội thực tập hấp dẫn tại doanh nghiệp.
+            </p>
+            
+            <div class="flex flex-wrap justify-center lg:justify-start gap-4 pt-2">
+                <a href="#contact" class="px-6 py-3 rounded-xl bg-cyan-500 text-slate-950 font-bold text-sm hover:bg-cyan-400 hover:scale-105 transition-all duration-300 shadow-lg shadow-cyan-500/25">
+                    <i class="fa-solid fa-paper-plane mr-2"></i>Kết nối với mình
+                </a>
+                <a href="#projects" class="px-6 py-3 rounded-xl bg-slate-800/80 text-slate-200 font-bold text-sm hover:bg-slate-700 hover:scale-105 transition-all duration-300 border border-slate-700/60 backdrop-blur-sm">
+                    Xem dự án<i class="fa-solid fa-arrow-right ml-2"></i>
+                </a>
+            </div>
+        </div>
+
+        <!-- TABBED TECH CONTAINER (AVATAR & TERMINAL) -->
+        <div class="w-full max-w-md lg:max-w-lg flex-shrink-0">
+            <div class="glass-card rounded-2xl overflow-hidden shadow-2xl border border-slate-800/80">
+                <!-- Mac-like Header & Tabs -->
+                <div class="bg-slate-950/90 px-4 pt-3 flex flex-col gap-2 border-b border-slate-800/80">
+                    <div class="flex items-center justify-between">
+                        <div class="flex space-x-2">
+                            <span class="w-3.5 h-3.5 rounded-full bg-rose-500 block"></span>
+                            <span class="w-3.5 h-3.5 rounded-full bg-amber-500 block"></span>
+                            <span class="w-3.5 h-3.5 rounded-full bg-emerald-500 block"></span>
+                        </div>
+                        <span class="text-[10px] text-slate-500 font-semibold code-font tracking-wider">WORKSPACE_DEVICES</span>
+                        <i class="fa-solid fa-microchip text-slate-500 text-xs"></i>
+                    </div>
+                    <!-- Tabs Selector -->
+                    <div class="flex space-x-1 text-xs font-semibold code-font">
+                        <button id="tab-avatar-btn" class="px-4 py-2 rounded-t-lg bg-slate-900 border-t border-x border-slate-800/80 text-cyan-400 flex items-center gap-2 transition-all">
+                            <i class="fa-solid fa-user-astronaut"></i> profile.png
+                        </button>
+                        <button id="tab-terminal-btn" class="px-4 py-2 rounded-t-lg text-slate-500 hover:text-slate-300 flex items-center gap-2 transition-all">
+                            <i class="fa-solid fa-terminal"></i> terminal.sh
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Tab 1: Profile Avatar Container -->
+                <div id="tab-avatar-content" class="p-8 flex flex-col items-center justify-center bg-slate-950/25 min-h-[340px] relative overflow-hidden transition-all duration-300">
+                    <!-- Vòng tròn công nghệ xoay bao quanh Avatar -->
+                    <div class="relative w-48 h-48 flex items-center justify-center">
+                        <!-- Outer Neon Ring -->
+                        <div class="absolute inset-0 rounded-full border border-dashed border-cyan-500/40 animate-spin-tech-1"></div>
+                        <!-- Inner Neon Ring -->
+                        <div class="absolute inset-2 rounded-full border border-double border-purple-500/30 animate-spin-tech-2"></div>
+                        <!-- Hologram Tech Accents -->
+                        <div class="absolute -top-1 w-3 h-3 bg-cyan-400 rounded-full shadow-lg shadow-cyan-400/50"></div>
+                        <div class="absolute -bottom-1 w-3 h-3 bg-purple-500 rounded-full shadow-lg shadow-purple-500/50"></div>
+                        
+                       <!-- Real Photo / Placeholder Wrapper -->
+                        <div class="w-38 h-38 rounded-full bg-slate-900 p-1.5 border border-slate-800 relative overflow-hidden z-10 group/avatar">
+                            <div class="w-full h-full rounded-full overflow-hidden bg-slate-950 flex flex-col items-center justify-center text-slate-600 relative">
+                                 <img src="image/z7621120103249_57a10a578e77f6d11e946cd1f7e08db5.jpg" alt="FPT University" class="w-full h-full object-cover rounded-full" style="object-position: center 30%;" onerror="this.style.display='none'">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Status Bar & Basic Details underneath -->
+                    <div class="mt-5 text-center space-y-2 z-10">
+                        <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-[10px] text-emerald-400 font-bold tracking-wider uppercase">
+                            <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+                            Active for internships
+                        </div>
+                        <div class="text-xs text-slate-400 code-font">
+                            LOC: <span class="text-slate-200">Da Nang, Viet Nam</span> | IP: <span class="text-slate-200">192.168.1.1</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tab 2: Terminal Content (Mặc định ẩn) -->
+                <div id="tab-terminal-content" class="p-6 code-font text-xs sm:text-sm space-y-4 bg-slate-950/40 text-left min-h-[340px] hidden transition-all duration-300">
+                    <div>
+                        <span class="text-emerald-400">guest@ttai.dev:~$</span> <span class="text-slate-100">whoami</span>
+                    </div>
+                    <div class="text-slate-400 pl-4">
+                        💡 Tên đầy đủ: Phan Thành Tài <br>
+                        🎓 Sinh viên năm 3 chuyên ngành Software Engineering<br>
+                        🎯 Mục tiêu: Trở thành kỹ sư Fullstack / IoT System Developer
+                    </div>
+                    <div>
+                        <span class="text-emerald-400">guest@ttai.dev:~$</span> <span class="text-slate-100">cat interests.json</span>
+                    </div>
+                    <div class="text-cyan-400 pl-4">
+                        { <br>
+                        &nbsp;&nbsp;"backend": ["Java", ".NET", "RESTful API"],<br>
+                        &nbsp;&nbsp;"hardware": ["ESP32", "Arduino", "Embedded System"],<br>
+                        &nbsp;&nbsp;"ai_integration": ["Generative AI", "Object Detection"]<br>
+                        }
+                    </div>
+                    <div class="flex items-center gap-1">
+                        <span class="text-emerald-400">guest@ttai.dev:~$</span>
+                        <span class="animate-pulse w-2 h-4 bg-cyan-400 inline-block"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- EDUCATION & CERTIFICATES SECTION -->
+    <section id="education" class="py-20 border-t border-slate-800/40 max-w-6xl mx-auto px-4 sm:px-6">
+        <h2 class="text-3xl font-extrabold mb-12 flex items-center gap-3">
+            <span class="p-2.5 rounded-xl bg-cyan-500/10 text-cyan-400 border border-cyan-500/20">
+                <i class="fa-solid fa-graduation-cap"></i>
+            </span>
+            Học vấn & Chứng chỉ
+        </h2>
+        
+        <div class="grid lg:grid-cols-3 gap-8">
+            <!-- School Info Card (Chiếm 2 cột) -->
+            <div class="lg:col-span-2 glass-card p-8 rounded-2xl flex flex-col sm:flex-row gap-6 items-start">
+                <div class="w-16 h-16 rounded-xl overflow-hidden flex items-center justify-center flex-shrink-0 border border-slate-800/80 bg-slate-950/40 p-1">
+                    <img src="image/images.png" alt="FPT University" class="w-full h-full object-cover rounded-xl" onerror="this.style.display='none'">
+                </div>
+                <div class="space-y-4">
+                    <div>
+                        <span class="text-[11px] font-bold tracking-widest text-cyan-400 uppercase">Hệ đại học chính quy</span>
+                        <h3 class="font-extrabold text-xl text-slate-100 mt-1">Đại học FPT (FPT University)</h3>
+                        <p class="text-sm text-cyan-400/80 font-medium">Chuyên ngành Kỹ thuật Phần mềm (2023 - 2027)</p>
+                    </div>
+                    <p class="text-slate-400 leading-relaxed text-sm">
+                        Hiện là sinh viên năm thứ 3. Hoàn thành xuất sắc các học phần cốt lõi bao gồm Cấu trúc dữ liệu & Giải thuật, Phân tích thiết kế hệ thống (SAD), Lập trình mạng hướng đối tượng, Quản trị cơ sở dữ liệu nâng cao SQL.
+                    </p>
+                    <div class="flex flex-wrap gap-2 pt-2">
+                        <span class="px-2.5 py-1 rounded bg-slate-900/60 border border-slate-800 text-xs text-slate-300">GPA xuất sắc</span>
+                        <span class="px-2.5 py-1 rounded bg-slate-900/60 border border-slate-800 text-xs text-slate-300">Agile/Scrum Team Leader</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Stats/Focus Card -->
+            <div class="glass-card p-8 rounded-2xl flex flex-col justify-between">
+                <div class="space-y-4">
+                    <h3 class="font-bold text-lg text-slate-200">Định hướng nghiên cứu</h3>
+                    <ul class="space-y-3 text-sm text-slate-400">
+                        <li class="flex items-center gap-2">
+                            <i class="fa-solid fa-circle-check text-cyan-400 text-xs"></i> Thiết kế hệ thống nhúng IoT tiết kiệm năng lượng
+                        </li>
+                        <li class="flex items-center gap-2">
+                            <i class="fa-solid fa-circle-check text-cyan-400 text-xs"></i> Xây dựng kiến trúc Web chịu tải cao (Scalable Web)
+                        </li>
+                        <li class="flex items-center gap-2">
+                            <i class="fa-solid fa-circle-check text-cyan-400 text-xs"></i> Tích hợp mô hình AI Generative hỗ trợ lập trình
+                        </li>
+                    </ul>
+                </div>
+                <div class="pt-6 border-t border-slate-800/80 flex items-center justify-between text-xs text-slate-500">
+                    <span>Cập nhật mới nhất: 2026</span>
+                    <i class="fa-solid fa-rotate-right animate-spin-slow"></i>
+                </div>
+            </div>
+        </div>
+
+        <!-- Chứng chỉ Carousel Grid -->
+        <div class="mt-8">
+            <h3 class="font-extrabold text-lg text-slate-200 mb-6 flex items-center gap-2">
+                <i class="fa-solid fa-award text-amber-500"></i> Chứng chỉ quốc tế đã hoàn thành
+            </h3>
+            <div class="grid md:grid-cols-3 gap-6">
+                <!-- Cert 1 -->
+                <div class="glass-card p-6 rounded-xl flex flex-col justify-between group cursor-pointer" onclick="openCertModal('Software Engineering: Implementation and Testing', 'HKUST (Hong Kong University of Science and Technology)', 'Nội dung chứng chỉ tập trung vào các phương pháp kiểm thử hộp đen (Black-box) và hộp trắng (White-box), xây dựng kịch bản kiểm thử tự động, tích hợp liên tục (CI/CD) để đảm bảo chất lượng vận hành phần mềm thực tế.')">
+                    <div class="space-y-3">
+                        <div class="flex items-center justify-between">
+                            <span class="text-[10px] uppercase font-extrabold tracking-wider text-cyan-400">HKUST Coursera</span>
+                            <i class="fa-solid fa-arrow-up-right-from-square text-xs text-slate-500 group-hover:text-cyan-400 transition-colors"></i>
+                        </div>
+                        <h4 class="text-sm font-bold text-slate-200 group-hover:text-cyan-400 transition-colors">Software Engineering: Implementation & Testing</h4>
+                        <p class="text-xs text-slate-400 leading-relaxed">Kiểm thử phần mềm tự động, quy trình kiểm thử nâng cao và quản lý rủi ro mã nguồn.</p>
+                    </div>
+                </div>
+                <!-- Cert 2 -->
+                <div class="glass-card p-6 rounded-xl flex flex-col justify-between group cursor-pointer" onclick="openCertModal('Software Engineering: Software Design and Project Management', 'HKUST (Hong Kong University of Science and Technology)', 'Nội dung chứng chỉ bao gồm việc thiết kế kiến trúc phần mềm chuẩn mô hình Clean Architecture, UML diagrams, thiết kế hướng đối tượng (OOD) và áp dụng quy trình Scrum/Agile trong dự án.')">
+                    <div class="space-y-3">
+                        <div class="flex items-center justify-between">
+                            <span class="text-[10px] uppercase font-extrabold tracking-wider text-cyan-400">HKUST Coursera</span>
+                            <i class="fa-solid fa-arrow-up-right-from-square text-xs text-slate-500 group-hover:text-cyan-400 transition-colors"></i>
+                        </div>
+                        <h4 class="text-sm font-bold text-slate-200 group-hover:text-cyan-400 transition-colors">Software Engineering: Software Design & Management</h4>
+                        <p class="text-xs text-slate-400 leading-relaxed">Quản lý dự án Agile/Scrum, thiết kế hướng đối tượng, kiến trúc mẫu và sơ đồ UML.</p>
+                    </div>
+                </div>
+                <!-- Cert 3 -->
+                <div class="glass-card p-6 rounded-xl flex flex-col justify-between group cursor-pointer" onclick="openCertModal('Generative AI in Software Development', 'Amazon AWS Developer Partner', 'Nội dung chứng chỉ tập trung vào việc áp dụng các trợ lý lập trình thông minh như AWS CodeWhisperer/Amazon Q, tối ưu hóa câu lệnh prompt kỹ thuật để sinh mã nguồn, phát hiện lỗ hổng bảo mật tự động bằng AI.')">
+                    <div class="space-y-3">
+                        <div class="flex items-center justify-between">
+                            <span class="text-[10px] uppercase font-extrabold tracking-wider text-amber-500">AWS Support</span>
+                            <i class="fa-solid fa-arrow-up-right-from-square text-xs text-slate-500 group-hover:text-amber-500 transition-colors"></i>
+                        </div>
+                        <h4 class="text-sm font-bold text-slate-200 group-hover:text-amber-500 transition-colors">Generative AI in Software Development</h4>
+                        <p class="text-xs text-slate-400 leading-relaxed">Ứng dụng trí tuệ nhân tạo tạo sinh nâng tầm hiệu năng viết code, bảo mật và refactor mã nguồn.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SKILLS SECTION -->
+    <section id="skills" class="py-20 border-t border-slate-800/40 max-w-6xl mx-auto px-4 sm:px-6">
+        <h2 class="text-3xl font-extrabold mb-12 flex items-center gap-3">
+            <span class="p-2.5 rounded-xl bg-cyan-500/10 text-cyan-400 border border-cyan-500/20">
+                <i class="fa-solid fa-code"></i>
+            </span>
+            Kỹ năng chuyên môn
+        </h2>
+
+        <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            <!-- Tech Card 1 -->
+            <div class="glass-card p-6 rounded-2xl space-y-4">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-lg bg-cyan-500/10 text-cyan-400 flex items-center justify-center text-lg">
+                        <i class="fa-brands fa-java"></i>
+                    </div>
+                    <h3 class="font-bold text-lg text-slate-200">Java Web & Backend</h3>
+                </div>
+                <div class="space-y-2">
+                    <div class="flex justify-between text-xs text-slate-400">
+                        <span>Java, Servlets & JSP, .NET C#</span>
+                        <span class="text-cyan-400 font-semibold">85%</span>
+                    </div>
+                    <div class="w-full bg-slate-900 h-1.5 rounded-full overflow-hidden">
+                        <div class="bg-gradient-to-r from-cyan-500 to-blue-500 h-full rounded-full" style="width: 85%"></div>
+                    </div>
+                </div>
+                <div class="flex flex-wrap gap-1.5 pt-2">
+                    <span class="px-2 py-0.5 rounded bg-slate-900 text-xs text-slate-400">Hibernate</span>
+                    <span class="px-2 py-0.5 rounded bg-slate-900 text-xs text-slate-400">SQL Server</span>
+                    <span class="px-2 py-0.5 rounded bg-slate-900 text-xs text-slate-400">MVC Architecture</span>
+                </div>
+            </div>
+
+            <!-- Tech Card 2 -->
+            <div class="glass-card p-6 rounded-2xl space-y-4">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-lg bg-cyan-500/10 text-cyan-400 flex items-center justify-center text-lg">
+                        <i class="fa-solid fa-microchip"></i>
+                    </div>
+                    <h3 class="font-bold text-lg text-slate-200">IoT & Hardware</h3>
+                </div>
+                <div class="space-y-2">
+                    <div class="flex justify-between text-xs text-slate-400">
+                        <span>ESP32, Arduino, C/C++</span>
+                        <span class="text-cyan-400 font-semibold">80%</span>
+                    </div>
+                    <div class="w-full bg-slate-900 h-1.5 rounded-full overflow-hidden">
+                        <div class="bg-gradient-to-r from-cyan-500 to-blue-500 h-full rounded-full" style="width: 80%"></div>
+                    </div>
+                </div>
+                <div class="flex flex-wrap gap-1.5 pt-2">
+                    <span class="px-2 py-0.5 rounded bg-slate-900 text-xs text-slate-400">Blynk & MQTT</span>
+                    <span class="px-2 py-0.5 rounded bg-slate-900 text-xs text-slate-400">UART/SPI/I2C</span>
+                    <span class="px-2 py-0.5 rounded bg-slate-900 text-xs text-slate-400">Sensor Integration</span>
+                </div>
+            </div>
+
+            <!-- Tech Card 3 -->
+            <div class="glass-card p-6 rounded-2xl space-y-4">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-lg bg-cyan-500/10 text-cyan-400 flex items-center justify-center text-lg">
+                        <i class="fa-solid fa-toolbox"></i>
+                    </div>
+                    <h3 class="font-bold text-lg text-slate-200">Công cụ bổ trợ</h3>
+                </div>
+                <div class="space-y-2">
+                    <div class="flex justify-between text-xs text-slate-400">
+                        <span>Node.js, Git/Github, Docker</span>
+                        <span class="text-cyan-400 font-semibold">75%</span>
+                    </div>
+                    <div class="w-full bg-slate-900 h-1.5 rounded-full overflow-hidden">
+                        <div class="bg-gradient-to-r from-cyan-500 to-blue-500 h-full rounded-full" style="width: 75%"></div>
+                    </div>
+                </div>
+                <div class="flex flex-wrap gap-1.5 pt-2">
+                    <span class="px-2 py-0.5 rounded bg-slate-900 text-xs text-slate-400">Gitflow</span>
+                    <span class="px-2 py-0.5 rounded bg-slate-900 text-xs text-slate-400">Postman APIs</span>
+                    <span class="px-2 py-0.5 rounded bg-slate-900 text-xs text-slate-400">Tiếng Nhật N4</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- PROJECTS SECTION -->
+    <section id="projects" class="py-20 border-t border-slate-800/40 max-w-6xl mx-auto px-4 sm:px-6">
+        <h2 class="text-3xl font-extrabold mb-12 flex items-center gap-3">
+            <span class="p-2.5 rounded-xl bg-cyan-500/10 text-cyan-400 border border-cyan-500/20">
+                <i class="fa-solid fa-folder-open"></i>
+            </span>
+            Dự án thực tiễn tiêu biểu
+        </h2>
+
+        <div class="grid md:grid-cols-2 gap-8">
+            <!-- Project 1 -->
+            <div class="glass-card rounded-2xl overflow-hidden flex flex-col justify-between group">
+                <!-- Project Visual Shell -->
+                <div class="h-48 bg-slate-950/80 relative flex items-center justify-center overflow-hidden border-b border-slate-800/80 p-6">
+                    <div class="absolute inset-0 bg-gradient-to-tr from-cyan-500/10 to-blue-500/5 z-0"></div>
+                    <!-- Mockup UI -->
+                    <div class="w-full max-w-xs glass-card rounded-lg p-4 border border-slate-800 relative z-10 transform group-hover:scale-105 transition-transform duration-500">
+                        <div class="flex items-center justify-between mb-3">
+                            <span class="text-[10px] text-emerald-400 font-bold uppercase tracking-wider flex items-center gap-1">
+                                <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span> Live Monitoring
+                            </span>
+                            <span class="text-[10px] text-slate-400">Thu Bồn River, Hội An</span>
+                        </div>
+                        <div class="h-16 w-full flex items-end gap-1 mb-2 bg-slate-950/60 rounded p-2">
+                            <div class="bg-cyan-500 w-1/4 h-[30%] rounded-sm"></div>
+                            <div class="bg-cyan-500 w-1/4 h-[45%] rounded-sm"></div>
+                            <div class="bg-cyan-500 w-1/4 h-[80%] rounded-sm"></div>
+                            <div class="bg-rose-500 w-1/4 h-[95%] rounded-sm animate-pulse"></div>
+                        </div>
+                        <div class="text-[9px] text-slate-500 text-right">Cảnh báo mực nước: Nguy hiểm (Báo động 3)</div>
+                    </div>
+                </div>
+
+                <!-- Project Info -->
+                <div class="p-6 flex-grow flex flex-col justify-between">
+                    <div class="space-y-3">
+                        <div class="flex items-center justify-between">
+                            <span class="text-xs font-bold text-cyan-400 tracking-wider uppercase">IoT & AI System Product</span>
+                            <span class="text-xs text-slate-500">2025</span>
+                        </div>
+                        <h3 class="text-xl font-bold group-hover:text-cyan-400 transition-colors">AI Flood Guard</h3>
+                        <p class="text-slate-400 text-sm leading-relaxed">
+                            Hệ thống website giám sát và cảnh báo lũ lụt theo thời gian thực cho lưu vực sông Thu Bồn tại Hội An. Tích hợp các nút phần cứng nhúng (ESP32 + các cảm biến siêu âm) truyền nhận dữ liệu trực tiếp và mô hình học máy cảnh báo nguy cơ sớm.
+                        </p>
+                    </div>
+                    <div class="flex flex-wrap gap-2 pt-6">
+                        <span class="text-[11px] font-semibold bg-slate-900 px-3 py-1 rounded border border-slate-800 text-slate-400">ESP32 & C/C++</span>
+                        <span class="text-[11px] font-semibold bg-slate-900 px-3 py-1 rounded border border-slate-800 text-slate-400">Spring Boot</span>
+                        <span class="text-[11px] font-semibold bg-slate-900 px-3 py-1 rounded border border-slate-800 text-slate-400">Machine Learning</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Project 2 -->
+            <div class="glass-card rounded-2xl overflow-hidden flex flex-col justify-between group">
+                <!-- Project Visual Shell -->
+                <div class="h-48 bg-slate-950/80 relative flex items-center justify-center overflow-hidden border-b border-slate-800/80 p-6">
+                    <div class="absolute inset-0 bg-gradient-to-tr from-purple-500/10 to-blue-500/5 z-0"></div>
+                    <!-- Mockup UI -->
+                    <div class="w-full max-w-xs glass-card rounded-lg p-4 border border-slate-800 relative z-10 transform group-hover:scale-105 transition-transform duration-500">
+                        <div class="flex items-center justify-between mb-3 border-b border-slate-800 pb-2">
+                            <span class="text-[10px] text-cyan-400 font-bold uppercase">Student Admin v2.0</span>
+                            <i class="fa-solid fa-user-gear text-slate-500 text-xs"></i>
+                        </div>
+                        <div class="space-y-1.5">
+                            <div class="h-6 bg-slate-900 rounded-sm flex items-center justify-between px-2 text-[8px] text-slate-400">
+                                <span>Phan Thành Tài - SE170...</span>
+                                <span class="px-1.5 py-0.2 rounded bg-emerald-500/20 text-emerald-400">Hoạt động</span>
+                            </div>
+                            <div class="h-6 bg-slate-900 rounded-sm flex items-center justify-between px-2 text-[8px] text-slate-400">
+                                <span>Nguyễn Văn A - SE172...</span>
+                                <span class="px-1.5 py-0.2 rounded bg-emerald-500/20 text-emerald-400">Hoạt động</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project Info -->
+                <div class="p-6 flex-grow flex flex-col justify-between">
+                    <div class="space-y-3">
+                        <div class="flex items-center justify-between">
+                            <span class="text-xs font-bold text-cyan-400 tracking-wider uppercase">Java Web Enterprise</span>
+                            <span class="text-xs text-slate-500">2024</span>
+                        </div>
+                        <h3 class="text-xl font-bold group-hover:text-cyan-400 transition-colors">Student Management System</h3>
+                        <p class="text-slate-400 text-sm leading-relaxed">
+                            Hệ thống quản lý thông tin học viên chuẩn mô hình kiến trúc MVC phân tầng (Separated Layers). Cung cấp các tác vụ truy vấn phân trang thông minh, kiểm soát phiên người dùng nâng cao (Session Security), và xử lý tối ưu giao dịch dữ liệu SQL.
+                        </p>
+                    </div>
+                    <div class="flex flex-wrap gap-2 pt-6">
+                        <span class="text-[11px] font-semibold bg-slate-900 px-3 py-1 rounded border border-slate-800 text-slate-400">Servlets & JSP</span>
+                        <span class="text-[11px] font-semibold bg-slate-900 px-3 py-1 rounded border border-slate-800 text-slate-400">MSSQL Database</span>
+                        <span class="text-[11px] font-semibold bg-slate-900 px-3 py-1 rounded border border-slate-800 text-slate-400">JSTL</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CONTACT SECTION (CHỈNH SỬA LƯỚI RESPONSIVE TOÀN DIỆN) -->
+    <section id="contact" class="py-20 border-t border-slate-800/40 max-w-6xl mx-auto px-4 sm:px-6">
+        <h2 class="text-3xl font-extrabold mb-4 text-center">Kết nối tương tác</h2>
+        <p class="text-slate-400 max-w-md mx-auto mb-12 text-sm sm:text-base text-center">
+            Mình luôn sẵn sàng tiếp nhận phản hồi, hợp tác phát triển hoặc tiếp nhận các cơ hội thực tập tiềm năng.
+        </p>
+        
+        <!-- Grid liên hệ thích ứng tốt trên mọi kích thước màn hình -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 max-w-5xl mx-auto">
+            
+            <!-- 1. Facebook -->
+            <a href="https://www.facebook.com/phan.thanh.tai.02112005" target="_blank" class="p-6 rounded-2xl bg-slate-900/40 border border-slate-800 hover:border-blue-500/40 hover:bg-slate-800/50 transition-all duration-300 group flex flex-col items-center justify-center text-center">
+                <i class="fa-brands fa-facebook text-3xl text-slate-400 group-hover:text-blue-500 group-hover:scale-110 transition-transform mb-3"></i>
+                <span class="text-xs font-bold text-slate-300 mb-1">Facebook</span>
+                <span class="text-[11px] text-slate-500 truncate w-full">Phan Thành Tài</span>
+            </a>
+
+            <!-- 2. Instagram -->
+            <a href="https://www.instagram.com/_177pt/" target="_blank" class="p-6 rounded-2xl bg-slate-900/40 border border-slate-800 hover:border-pink-500/40 hover:bg-slate-800/50 transition-all duration-300 group flex flex-col items-center justify-center text-center">
+                <i class="fa-brands fa-instagram text-3xl text-slate-400 group-hover:text-pink-500 group-hover:scale-110 transition-transform mb-3"></i>
+                <span class="text-xs font-bold text-slate-300 mb-1">Instagram</span>
+                <span class="text-[11px] text-slate-500 truncate w-full">Phan Thành Tài</span>
+            </a>
+
+            <!-- 3. Zalo -->
+            <a href="https://zalo.me/0774522968" target="_blank" class="p-6 rounded-2xl bg-slate-900/40 border border-slate-800 hover:border-blue-400/40 hover:bg-slate-800/50 transition-all duration-300 group flex flex-col items-center justify-center text-center">
+                <i class="fa-solid fa-phone text-3xl text-slate-400 group-hover:text-blue-400 group-hover:scale-110 transition-transform mb-3"></i>
+                <span class="text-xs font-bold text-slate-300 mb-1">Zalo</span>
+                <span class="text-[11px] text-slate-500 truncate w-full">0774 522 968</span>
+            </a>
+
+            <!-- 4. Email -->
+            <a href="mailto:pthanhtai2k5@gmail.com" class="p-6 rounded-2xl bg-slate-900/40 border border-slate-800 hover:border-cyan-500/40 hover:bg-slate-800/50 transition-all duration-300 group flex flex-col items-center justify-center text-center">
+                <i class="fa-regular fa-envelope text-3xl text-slate-400 group-hover:text-cyan-400 group-hover:scale-110 transition-transform mb-3"></i>
+                <span class="text-xs font-bold text-slate-300 mb-1">Email</span>
+                <span class="text-[11px] text-slate-500 truncate w-full">pthanhtai2k5</span>
+            </a>
+
+            <!-- 5. LinkedIn -->
+            <a href="https://www.linkedin.com/in/phanthanhtai2005fuda/" target="_blank" class="p-6 rounded-2xl bg-blue-600/10 border border-blue-600/30 hover:border-blue-500 hover:bg-blue-600/20 transition-all duration-300 group flex flex-col items-center justify-center text-center sm:col-span-2 lg:col-span-1">
+                <i class="fa-brands fa-linkedin text-3xl text-blue-400 group-hover:text-blue-300 group-hover:scale-110 transition-transform mb-3"></i>
+                <span class="text-xs font-bold text-slate-300 mb-1">LinkedIn</span>
+                <span class="text-[11px] text-slate-500 truncate w-full">Hồ sơ công việc</span>
+            </a>
+
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="bg-slate-950/80 border-t border-slate-900 py-8 text-center text-xs text-slate-500">
+        <div class="max-w-6xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-4">
+            <p>© 2026 Phan Thành Tài. Crafted with ❤️ & Tailwind CSS.</p>
+            <div class="flex space-x-6">
+                <a href="#about" class="hover:text-cyan-400">Trở lên đầu trang</a>
+                <span>•</span>
+                <span class="code-font text-cyan-500/80">build_v2.1.0_stable</span>
+            </div>
+        </div>
+    </footer>
+
+    <!-- INTERACTIVE CERTIFICATE MODAL -->
+    <div id="certModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-md hidden transition-all duration-300 opacity-0">
+        <div class="relative w-full max-w-2xl glass-card rounded-2xl p-6 sm:p-8 border border-slate-700/80 max-h-[90vh] overflow-y-auto">
+            <button onclick="closeCertModal()" class="absolute top-4 right-4 text-slate-400 hover:text-white transition-colors p-1" aria-label="Close modal">
+                <i class="fa-solid fa-xmark text-xl"></i>
+            </button>
+            <div class="space-y-4">
+                <span class="text-[10px] uppercase font-bold tracking-widest text-cyan-400 block" id="modalOrg">Tổ chức</span>
+                <h3 class="text-2xl font-black text-slate-100 leading-tight" id="modalTitle">Tên chứng chỉ</h3>
+                <div class="py-4 border-y border-slate-800/80 my-4 text-slate-400 text-sm leading-relaxed" id="modalDesc">
+                    Chi tiết nội dung...
+                </div>
+                <!-- Sơ đồ SVG chứng chỉ giả lập cực đẹp thay thế cho ảnh rỗng -->
+                <div class="w-full bg-slate-950/60 rounded-xl p-6 border border-slate-800 text-center space-y-4">
+                    <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-cyan-500/10 text-cyan-400 border border-cyan-500/20 text-3xl">
+                        <i class="fa-solid fa-graduation-cap"></i>
+                    </div>
+                    <div>
+                        <p class="text-xs text-slate-500">Mã định danh liên kết (Certificate Link ID)</p>
+                        <p class="text-xs font-mono text-cyan-500/80 mt-1" id="certID">LIC-COURSERA-FPTU-2026-X83</p>
+                    </div>
+                    <div class="flex justify-center gap-3 pt-2">
+                        <span class="px-3 py-1 rounded bg-slate-900 text-[10px] text-slate-400 font-mono border border-slate-800">STATUS: VERIFIED</span>
+                        <span class="px-3 py-1 rounded bg-slate-900 text-[10px] text-slate-400 font-mono border border-slate-800">GRADE: 100%</span>
+                    </div>
+                </div>
+                <div class="flex justify-end pt-4">
+                    <button onclick="closeCertModal()" class="px-5 py-2.5 rounded-xl bg-slate-800 text-slate-200 font-bold text-xs hover:bg-slate-700 transition-colors">
+                        Đóng cửa sổ
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- JAVASCRIPT FOR INTERACTIVE FEATURES -->
+    <script>
+        // Điều khiển Menu Mobile
+        const menuBtn = document.getElementById('menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        menuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // Ẩn menu mobile khi click vào một link chuyển tiếp
+        const mobileLinks = mobileMenu.querySelectorAll('a');
+        mobileLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.add('hidden');
+            });
+        });
+
+        // Điều khiển chuyển đổi TAB Avatar và Terminal
+        const tabAvatarBtn = document.getElementById('tab-avatar-btn');
+        const tabTerminalBtn = document.getElementById('tab-terminal-btn');
+        const tabAvatarContent = document.getElementById('tab-avatar-content');
+        const tabTerminalContent = document.getElementById('tab-terminal-content');
+
+        tabAvatarBtn.addEventListener('click', () => {
+            // Active Avatar Tab
+            tabAvatarBtn.classList.add('bg-slate-900', 'text-cyan-400', 'border-t', 'border-x', 'border-slate-800/80');
+            tabAvatarBtn.classList.remove('text-slate-500');
+            // Inactive Terminal Tab
+            tabTerminalBtn.classList.remove('bg-slate-900', 'text-cyan-400', 'border-t', 'border-x', 'border-slate-800/80');
+            tabTerminalBtn.classList.add('text-slate-500');
+            
+            // Toggle Content
+            tabAvatarContent.classList.remove('hidden');
+            tabTerminalContent.classList.add('hidden');
+        });
+
+        tabTerminalBtn.addEventListener('click', () => {
+            // Active Terminal Tab
+            tabTerminalBtn.classList.add('bg-slate-900', 'text-cyan-400', 'border-t', 'border-x', 'border-slate-800/80');
+            tabTerminalBtn.classList.remove('text-slate-500');
+            // Inactive Avatar Tab
+            tabAvatarBtn.classList.remove('bg-slate-900', 'text-cyan-400', 'border-t', 'border-x', 'border-slate-800/80');
+            tabAvatarBtn.classList.add('text-slate-500');
+            
+            // Toggle Content
+            tabTerminalContent.classList.remove('hidden');
+            tabAvatarContent.classList.add('hidden');
+        });
+
+        // Hiệu ứng đổi màu Navbar khi cuộn chuột xuống
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 20) {
+                navbar.classList.add('bg-slate-950/90', 'border-slate-800/80', 'py-1');
+                navbar.classList.remove('bg-slate-950/60', 'border-slate-800/60', 'py-0');
+            } else {
+                navbar.classList.add('bg-slate-950/60', 'border-slate-800/60');
+                navbar.classList.remove('bg-slate-950/90', 'border-slate-800/80');
+            }
+        });
+
+        // Trình quản lý chứng chỉ (Modal)
+        const certModal = document.getElementById('certModal');
+        const modalTitle = document.getElementById('modalTitle');
+        const modalOrg = document.getElementById('modalOrg');
+        const modalDesc = document.getElementById('modalDesc');
+        const certID = document.getElementById('certID');
+
+        function openCertModal(title, org, desc) {
+            modalTitle.innerText = title;
+            modalOrg.innerText = org;
+            modalDesc.innerText = desc;
+            
+            // Tạo mã hash giả lập cho chuyên nghiệp
+            const randomID = Math.random().toString(36).substring(2, 10).toUpperCase();
+            certID.innerText = `LIC-VERIFIED-${randomID}-2026`;
+
+            certModal.classList.remove('hidden');
+            setTimeout(() => {
+                certModal.classList.remove('opacity-0');
+            }, 10);
+            document.body.style.overflow = 'hidden'; // Ngăn chặn cuộn trang chính khi đang mở modal
+        }
+
+        function closeCertModal() {
+            certModal.classList.add('opacity-0');
+            setTimeout(() => {
+                certModal.classList.add('hidden');
+            }, 300);
+            document.body.style.overflow = '';
+        }
+
+        // Đóng modal khi bấm ra ngoài vùng nội dung chính
+        window.addEventListener('click', (e) => {
+            if (e.target === certModal) {
+                closeCertModal();
+            }
+        });
+    </script>
+</body>
+</html>
