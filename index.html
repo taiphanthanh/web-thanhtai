@@ -111,6 +111,38 @@
             width: 0%;
             transition: width 1.2s ease;
         }
+        .cursor-dot {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(6, 182, 212, 0.95);
+            box-shadow: 0 0 0 10px rgba(6, 182, 212, 0.12);
+            pointer-events: none;
+            transform: translate(-50%, -50%);
+            transition: transform 0.12s ease, width 0.12s ease, height 0.12s ease, background 0.12s ease, box-shadow 0.12s ease;
+            z-index: 9999;
+            mix-blend-mode: screen;
+        }
+        .cursor-dot.hovered {
+            width: 22px;
+            height: 22px;
+            background: rgba(34, 211, 238, 0.95);
+            box-shadow: 0 0 0 14px rgba(34, 211, 238, 0.15);
+        }
+        @media (hover: none), (pointer: coarse) {
+            .cursor-dot {
+                display: none;
+            }
+            body {
+                cursor: auto;
+            }
+        }
+        input, textarea {
+            cursor: text;
+        }
         .timeline {
             position: relative;
             margin-left: 0.75rem;
@@ -185,10 +217,14 @@
                 <a href="#skills" class="hover:text-cyan-400 transition-colors duration-200">Kỹ năng</a>
                 <a href="#projects" class="hover:text-cyan-400 transition-colors duration-200">Dự án</a>
                 <a href="#contact" class="hover:text-cyan-400 transition-colors duration-200">Liên hệ</a>
-                
             </div>
 
             <!-- Mobile Action Layout -->
+        </div>
+        <div class="absolute right-4 top-1/2 hidden md:flex -translate-y-1/2 items-center gap-2 rounded-full bg-slate-900/70 border border-slate-800 px-3 py-2 text-xs text-slate-300 shadow-sm">
+            <i class="fa-solid fa-user-check text-cyan-400"></i>
+            <strong id="visitorCounter" class="font-semibold">đang tải...</strong>
+        </div>
             <div class="flex items-center gap-2 md:hidden">
                     <!-- Mobile Nav Button -->
                 <button class="text-slate-300 hover:text-cyan-400 focus:outline-none p-2" id="menu-btn" aria-label="Toggle menu">
@@ -230,7 +266,6 @@
             <p class="text-slate-400 text-base sm:text-lg leading-relaxed max-w-2xl mx-auto lg:mx-0">
                 Đam mê thiết kế & phát triển các ứng dụng hệ thống tối ưu, nghiên cứu giải pháp <strong class="text-cyan-400 font-semibold">IoT</strong> và ứng dụng <strong class="text-cyan-400 font-semibold">AI</strong> nhằm kiến tạo các giá trị thực tiễn cho cộng đồng. Hiện mình đang tìm kiếm cơ hội thực tập hấp dẫn tại doanh nghiệp.
             </p>
-            
             <div class="flex flex-wrap justify-center lg:justify-start gap-4 pt-2">
                 <a href="#contact" class="px-6 py-3 rounded-xl bg-cyan-500 text-slate-950 font-bold text-sm hover:bg-cyan-400 hover:scale-105 transition-all duration-300 shadow-lg shadow-cyan-500/25">
                     <i class="fa-solid fa-paper-plane mr-2"></i>Kết nối với mình
@@ -311,6 +346,15 @@
                         🎓 Sinh viên năm 3 chuyên ngành Software Engineering<br>
                         🎯 Mục tiêu: Trở thành kỹ sư Fullstack / IoT System Developer
                     </div>
+                    <div id="terminalOutput">
+                    <div>
+                        <span class="text-emerald-400">guest@ttai.dev:~$</span> <span class="text-slate-100">whoami</span>
+                    </div>
+                    <div class="text-slate-400 pl-4">
+                        💡 Tên đầy đủ: Phan Thành Tài <br>
+                        🎓 Sinh viên năm 3 chuyên ngành Software Engineering<br>
+                        🎯 Mục tiêu: Trở thành kỹ sư Fullstack / IoT System Developer
+                    </div>
                     <div>
                         <span class="text-emerald-400">guest@ttai.dev:~$</span> <span class="text-slate-100">cat interests.json</span>
                     </div>
@@ -321,11 +365,18 @@
                         &nbsp;&nbsp;"ai_integration": ["Generative AI", "Object Detection"]<br>
                         }
                     </div>
-                    <div class="flex items-center gap-1">
-                        <span class="text-emerald-400">guest@ttai.dev:~$</span>
-                        <span class="animate-pulse w-2 h-4 bg-cyan-400 inline-block"></span>
-                    </div>
                 </div>
+                <div class="pt-4 border-t border-slate-800/70"></div>
+                <div class="flex items-center justify-between text-xs text-slate-500 mt-4">
+                    <span>Gõ <strong>help</strong> để xem lệnh ẩn</span>
+                    <button id="terminalSoundToggle" type="button" class="px-3 py-1 rounded-full bg-slate-900/70 border border-slate-800 text-slate-300 hover:bg-cyan-500/15 transition">Âm thanh: Bật</button>
+                </div>
+                <div class="flex items-center gap-3 pt-3">
+                    <span class="text-emerald-400">guest@ttai.dev:~$</span>
+                    <input id="terminalInput" type="text" autocomplete="off" class="w-full bg-slate-900/70 border border-slate-800 rounded-xl px-3 py-2 text-slate-100 text-sm focus:border-cyan-400 focus:ring-2 focus:ring-cyan-500/20 outline-none" placeholder="help" aria-label="Terminal command input">
+                </div>
+                <div id="terminalHint" class="text-[11px] text-slate-500 pt-2">Lệnh hiện có: help, whoami, contact, clear, projects</div>
+            </div>
             </div>
         </div>
     </section>
@@ -997,11 +1048,120 @@
                     await navigator.clipboard.writeText(value);
                     const feedback = button.querySelector('.copy-feedback');
                     feedback.classList.add('show');
+                    if (audioEnabled) {
+                        playClickSound();
+                    }
                     setTimeout(() => feedback.classList.remove('show'), 1800);
                 } catch (error) {
                     console.error('Copy failed', error);
                 }
             });
+        });
+
+        // Parallax tech-grid
+        const techGrid = document.querySelector('.tech-grid');
+        let latestScrollY = window.scrollY;
+        let ticking = false;
+        const handleScroll = () => {
+            latestScrollY = window.scrollY;
+            if (!ticking) {
+                requestAnimationFrame(() => {
+                    const offset = latestScrollY * 0.06;
+                    techGrid.style.transform = `translateY(${offset}px)`;
+                    ticking = false;
+                });
+                ticking = true;
+            }
+        };
+        window.addEventListener('scroll', handleScroll, { passive: true });
+
+        // Custom cursor
+        const customCursor = document.getElementById('customCursor');
+        const interactiveSelectors = 'a, button, input, .project-filter-btn, .glass-card, .copy-contact, #tab-terminal-btn';
+
+        document.addEventListener('mousemove', (event) => {
+            customCursor.style.left = `${event.clientX}px`;
+            customCursor.style.top = `${event.clientY}px`;
+        });
+
+        document.querySelectorAll(interactiveSelectors).forEach((item) => {
+            item.addEventListener('mouseenter', () => customCursor.classList.add('hovered'));
+            item.addEventListener('mouseleave', () => customCursor.classList.remove('hovered'));
+        });
+
+        // Visitor counter using CountAPI
+        const visitorCounter = document.getElementById('visitorCounter');
+        fetch('https://api.countapi.xyz/hit/phanthanh-tai-portfolio/visitors')
+            .then(response => response.json())
+            .then(data => {
+                if (data && typeof data.value === 'number') {
+                    visitorCounter.textContent = data.value.toLocaleString('en-US');
+                } else {
+                    visitorCounter.textContent = '0';
+                }
+            })
+            .catch(() => {
+                visitorCounter.textContent = '0';
+            });
+
+        // Terminal hidden commands with sound control
+        const terminalInput = document.getElementById('terminalInput');
+        const terminalOutput = document.getElementById('terminalOutput');
+        const terminalSoundToggle = document.getElementById('terminalSoundToggle');
+        let audioEnabled = true;
+
+        const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+        const playClickSound = () => {
+            if (audioContext.state === 'suspended') {
+                audioContext.resume();
+            }
+            const oscillator = audioContext.createOscillator();
+            const gain = audioContext.createGain();
+            oscillator.type = 'square';
+            oscillator.frequency.setValueAtTime(420, audioContext.currentTime);
+            gain.gain.setValueAtTime(0.0001, audioContext.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.08, audioContext.currentTime + 0.005);
+            gain.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + 0.18);
+            oscillator.connect(gain);
+            gain.connect(audioContext.destination);
+            oscillator.start();
+            oscillator.stop(audioContext.currentTime + 0.18);
+        };
+
+        const appendTerminalLine = (content, isCommand = false) => {
+            const wrapper = document.createElement('div');
+            wrapper.className = isCommand ? 'text-slate-100' : 'text-slate-400 pl-4';
+            wrapper.innerHTML = content;
+            terminalOutput.appendChild(wrapper);
+            terminalOutput.scrollTop = terminalOutput.scrollHeight;
+        };
+
+        const terminalCommands = {
+            help: () => appendTerminalLine('<span class="text-emerald-400">available commands:</span><br>&nbsp;&nbsp;help, whoami, contact, projects, clear', false),
+            whoami: () => appendTerminalLine('<span class="text-emerald-400">guest@ttai.dev:~$</span> whoami<br><span class="text-slate-100">Phan Thành Tài - Software Engineering Student</span>', false),
+            contact: () => appendTerminalLine('<span class="text-emerald-400">guest@ttai.dev:~$</span> contact<br><span class="text-slate-100">Email: pthanhtai2k5@gmail.com<br>Phone: 0774 522 968<br>LinkedIn: phanthanhtai2005fuda</span>', false),
+            projects: () => appendTerminalLine('<span class="text-emerald-400">guest@ttai.dev:~$</span> projects<br><span class="text-slate-100">Sử dụng bộ lọc dự án phía trên để xem Java Web, IoT, AI.</span>', false),
+            clear: () => { terminalOutput.innerHTML = ''; },
+        };
+
+        terminalInput.addEventListener('keydown', (event) => {
+            if (event.key === 'Enter') {
+                const command = terminalInput.value.trim().toLowerCase();
+                if (!command) return;
+                terminalInput.value = '';
+                appendTerminalLine(`<span class="text-emerald-400">guest@ttai.dev:~$</span> ${command}`, true);
+                if (audioEnabled) playClickSound();
+                if (terminalCommands[command]) {
+                    terminalCommands[command]();
+                } else {
+                    appendTerminalLine('<span class="text-rose-400">Command not found. Type help to see available commands.</span>', false);
+                }
+            }
+        });
+
+        terminalSoundToggle.addEventListener('click', () => {
+            audioEnabled = !audioEnabled;
+            terminalSoundToggle.textContent = `Âm thanh: ${audioEnabled ? 'Bật' : 'Tắt'}`;
         });
     </script>
 </body>
