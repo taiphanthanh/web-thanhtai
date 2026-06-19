@@ -206,9 +206,15 @@
     <!-- NAVIGATION BAR (GLASSMORPHISM) -->
     <nav class="fixed top-0 left-0 right-0 z-50 bg-slate-950/60 backdrop-blur-lg border-b border-slate-800/60 transition-all duration-300" id="navbar">
         <div class="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
-            <a href="#" class="text-xl font-black tracking-wider bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent flex items-center gap-2">
-                <span class="code-font">&lt;</span>ttai.dev<span class="code-font">/&gt;</span>
-            </a>
+            <div class="flex items-center gap-4">
+                <a href="#" class="text-xl font-black tracking-wider bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent flex items-center gap-2">
+                    <span class="code-font">&lt;</span>ttai.dev<span class="code-font">/&gt;</span>
+                </a>
+                <button onclick="openopensModal()" class="hidden sm:flex items-center gap-2 px-3 py-2 rounded-full bg-cyan-500/10 border border-cyan-500/30 text-cyan-400 hover:bg-cyan-500/20 transition-all duration-200" title="Mở playlist">
+                    <i class="fa-solid fa-music text-sm"></i>
+                    <span class="text-xs font-semibold">Playlist</span>
+                </button>
+            </div>
             
             <!-- Desktop Nav -->
             <div class="hidden md:flex items-center space-x-6 lg:space-x-8 text-sm font-semibold tracking-wide text-slate-300">
@@ -236,6 +242,9 @@
         <!-- Mobile Menu -->
         <div class="hidden md:hidden bg-slate-950/95 border-b border-slate-800 backdrop-blur-lg" id="mobile-menu">
             <div class="px-4 pt-2 pb-6 space-y-3 text-base font-semibold">
+                <button onclick="openPlaylistModal()" class="w-full text-left py-2 text-slate-300 hover:text-cyan-400 flex items-center gap-2">
+                    <i class="fa-solid fa-music"></i> Playlist
+                </button>
                 <a href="#about" class="block py-2 text-slate-300 hover:text-cyan-400">Giới thiệu</a>
                 <a href="#education" class="block py-2 text-slate-300 hover:text-cyan-400">Học vấn</a>
                 <a href="#skills" class="block py-2 text-slate-300 hover:text-cyan-400">Kỹ năng</a>
@@ -244,6 +253,22 @@
             </div>
         </div>
     </nav>
+
+    <!-- PLAYLIST MODAL (PHÓNG TO) -->
+    <div id="playlistModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/90 backdrop-blur-md hidden transition-all duration-300 opacity-0">
+        <div class="relative w-full max-w-2xl rounded-2xl bg-slate-900/95 border border-slate-800 shadow-2xl p-6 text-slate-100">
+            <button onclick="closePlaylistModal()" class="absolute -top-10 right-2 text-slate-400 hover:text-white transition-colors p-2.5 bg-slate-900/80 rounded-full border border-slate-800 backdrop-blur-sm shadow-xl" aria-label="Close playlist">
+                <i class="fa-solid fa-xmark text-xl"></i>
+            </button>
+            <div class="flex items-center gap-3 mb-5">
+                <i class="fa-solid fa-music text-cyan-400 text-xl"></i>
+                <h3 class="text-xl font-bold text-slate-100 tracking-wide">Playlist yêu thích</h3>
+            </div>
+            <div class="rounded-2xl overflow-hidden border border-slate-800 bg-slate-950/80">
+                <iframe data-testid="embed-iframe" style="border-radius:12px" src="https://open.spotify.com/embed/playlist/37i9dQZF1F5p3rmiWPIYgZ?utm_source=generator" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+            </div>
+        </div>
+    </div>
 
     <!-- HERO & PROFILE SECTION -->
     <section id="about" class="pt-28 md:pt-36 pb-20 max-w-6xl mx-auto px-4 sm:px-6 flex flex-col lg:flex-row items-center gap-12 lg:gap-16">
@@ -837,6 +862,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
     <!-- JAVASCRIPT FOR INTERACTIVE FEATURES -->
     <script>
+        console.log('Chào người đồng nghiệp tương lai! Tôi biết bạn đang kiểm tra mã nguồn của tôi. Rất vui được kết nối!');
         // Điều khiển Menu Mobile
         const menuBtn = document.getElementById('menu-btn');
         const mobileMenu = document.getElementById('mobile-menu');
@@ -859,30 +885,32 @@
         const tabAvatarContent = document.getElementById('tab-avatar-content');
         const tabTerminalContent = document.getElementById('tab-terminal-content');
 
+        const resetTabStyles = () => {
+            [tabAvatarBtn, tabTerminalBtn].forEach(btn => {
+                btn.classList.remove('bg-slate-900', 'text-cyan-400', 'border-t', 'border-x', 'border-slate-800/80');
+                btn.classList.add('text-slate-500');
+            });
+        };
+
+        const hideAllTabContents = () => {
+            tabAvatarContent.classList.add('hidden');
+            tabTerminalContent.classList.add('hidden');
+        };
+
         tabAvatarBtn.addEventListener('click', () => {
-            // Active Avatar Tab
+            resetTabStyles();
             tabAvatarBtn.classList.add('bg-slate-900', 'text-cyan-400', 'border-t', 'border-x', 'border-slate-800/80');
             tabAvatarBtn.classList.remove('text-slate-500');
-            // Inactive Terminal Tab
-            tabTerminalBtn.classList.remove('bg-slate-900', 'text-cyan-400', 'border-t', 'border-x', 'border-slate-800/80');
-            tabTerminalBtn.classList.add('text-slate-500');
-            
-            // Toggle Content
+            hideAllTabContents();
             tabAvatarContent.classList.remove('hidden');
-            tabTerminalContent.classList.add('hidden');
         });
 
         tabTerminalBtn.addEventListener('click', () => {
-            // Active Terminal Tab
+            resetTabStyles();
             tabTerminalBtn.classList.add('bg-slate-900', 'text-cyan-400', 'border-t', 'border-x', 'border-slate-800/80');
             tabTerminalBtn.classList.remove('text-slate-500');
-            // Inactive Avatar Tab
-            tabAvatarBtn.classList.remove('bg-slate-900', 'text-cyan-400', 'border-t', 'border-x', 'border-slate-800/80');
-            tabAvatarBtn.classList.add('text-slate-500');
-            
-            // Toggle Content
+            hideAllTabContents();
             tabTerminalContent.classList.remove('hidden');
-            tabAvatarContent.classList.add('hidden');
         });
 
         // Hiệu ứng đổi màu Navbar khi cuộn chuột xuống
@@ -952,6 +980,27 @@
             document.body.style.overflow = '';
         }
 
+        // Playlist modal
+        const playlistModal = document.getElementById('playlistModal');
+
+        function openPlaylistModal() {
+            playlistModal.classList.remove('hidden');
+            setTimeout(() => {
+                playlistModal.classList.remove('opacity-0');
+            }, 10);
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closePlaylistModal() {
+            playlistModal.classList.add('opacity-0');
+            setTimeout(() => {
+                playlistModal.classList.add('hidden');
+            }, 300);
+            document.body.style.overflow = '';
+        }
+
+
+
         // Đóng modal khi bấm ra ngoài vùng nội dung chính
         window.addEventListener('click', (e) => {
             if (e.target === certModal) {
@@ -960,6 +1009,9 @@
             if (e.target === avatarModal) {
                 closeAvatarModal();
             }
+            if (e.target === playlistModal) {
+                closePlaylistModal();
+            }
         });
 
         // Đóng modal bằng phím ESC
@@ -967,6 +1019,7 @@
             if (e.key === 'Escape') {
                 closeCertModal();
                 closeAvatarModal();
+                closePlaylistModal();
             }
         });
 
