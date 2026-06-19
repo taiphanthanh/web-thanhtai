@@ -227,9 +227,9 @@
 
             <!-- Mobile Action Layout -->
         </div>
-        <div class="absolute right-4 top-1/2 hidden md:flex -translate-y-1/2 items-center gap-2 rounded-full bg-slate-900/70 border border-slate-800 px-3 py-2 text-xs text-slate-300 shadow-sm">
+        <div class="absolute right-4 top-1/2 flex -translate-y-1/2 items-center gap-2 rounded-full bg-slate-900/70 border border-slate-800 px-3 py-2 text-xs text-slate-300 shadow-sm">
             <i class="fa-solid fa-user-check text-cyan-400"></i>
-            <strong id="visitorCounter" class="font-semibold">1,376</strong>
+            <strong id="visitorCounter" class="visitorCounter font-semibold">1,376</strong>
         </div>
             <div class="flex items-center gap-2 md:hidden">
                     <!-- Mobile Nav Button -->
@@ -1143,18 +1143,24 @@
         });
 
         // Visitor counter using CountAPI
-        const visitorCounter = document.getElementById('visitorCounter');
+        const visitorCounters = document.querySelectorAll('.visitorCounter');
         fetch('https://api.countapi.xyz/hit/phanthanh-tai-portfolio/visitors')
             .then(response => response.json())
             .then(data => {
                 if (data && typeof data.value === 'number') {
-                    visitorCounter.textContent = data.value.toLocaleString('en-US');
+                    visitorCounters.forEach(counter => {
+                        counter.textContent = data.value.toLocaleString('en-US');
+                    });
                 } else {
-                    visitorCounter.textContent = '1,376';
+                    visitorCounters.forEach(counter => {
+                        counter.textContent = '1,376';
+                    });
                 }
             })
             .catch(() => {
-                visitorCounter.textContent = '1,376';
+                visitorCounters.forEach(counter => {
+                    counter.textContent = '1,376';
+                });
             });
 
         // Terminal hidden commands with sound control
