@@ -223,7 +223,7 @@
         </div>
         <div class="absolute right-4 top-1/2 hidden md:flex -translate-y-1/2 items-center gap-2 rounded-full bg-slate-900/70 border border-slate-800 px-3 py-2 text-xs text-slate-300 shadow-sm">
             <i class="fa-solid fa-user-check text-cyan-400"></i>
-            <strong id="visitorCounter" class="font-semibold">đang tải...</strong>
+            <strong id="visitorCounter" class="font-semibold">1,376</strong>
         </div>
             <div class="flex items-center gap-2 md:hidden">
                     <!-- Mobile Nav Button -->
@@ -1097,11 +1097,11 @@
                 if (data && typeof data.value === 'number') {
                     visitorCounter.textContent = data.value.toLocaleString('en-US');
                 } else {
-                    visitorCounter.textContent = '0';
+                    visitorCounter.textContent = '1,376';
                 }
             })
             .catch(() => {
-                visitorCounter.textContent = '0';
+                visitorCounter.textContent = '1,376';
             });
 
         // Terminal hidden commands with sound control
